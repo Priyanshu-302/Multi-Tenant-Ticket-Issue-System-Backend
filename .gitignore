@@ -1,0 +1,7 @@
+.env
+
+node_modules\
+
+folder-structure.txt
+
+package-lock.json
