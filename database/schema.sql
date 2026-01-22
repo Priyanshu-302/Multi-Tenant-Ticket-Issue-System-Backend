@@ -16,7 +16,7 @@ create table
         password text not null,
         is_active boolean default true,
         org_id integer references organization (id),
-        role text not null check (role in ('ADMIN', 'AGENT', 'USER')),
+        role text not null check (role in ('AGENT', 'USER')),
         created_at timestamp default current_timestamp,
         unique (org_id)
     );
