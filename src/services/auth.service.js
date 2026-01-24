@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 
-exports.registerUser = async (name, email, password, role, org_id) => {
+exports.registerUser = async (name, email, password) => {
   try {
     const existingUser = await User.getUserByEmail(email);
     if (existingUser) {
@@ -13,9 +13,7 @@ exports.registerUser = async (name, email, password, role, org_id) => {
     const newUser = await User.createUser(
       name,
       email,
-      hashedPassword,
-      role,
-      org_id,
+      hashedPassword
     );
 
     return newUser;

@@ -5,9 +5,9 @@ const generateRefreshToken = require("../utils/jwt");
 
 exports.register = async (req, res, next) => {
   try {
-    const { name, email, password, role, org_id } = req.body;
+    const { name, email, password } = req.body;
 
-    const newUser = await registerUser(name, email, password, role, org_id);
+    const newUser = await registerUser(name, email, password);
 
     res.status(201).json({
       success: true,

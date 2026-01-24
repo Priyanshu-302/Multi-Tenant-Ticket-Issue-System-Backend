@@ -3,7 +3,6 @@ create table
     organization (
         id serial primary key,
         name text not null,
-        role text not null default 'ADMIN',
         created_at timestamp default current_timestamp
     );
 
@@ -15,11 +14,19 @@ create table
         email text not null unique,
         password text not null,
         is_active boolean default true,
-        org_id integer references organization (id),
-        role text not null check (role in ('AGENT', 'USER')),
         created_at timestamp default current_timestamp,
-        unique (org_id)
     );
+
+-- Membership Table --> Forms relationship between user <-> organization <-> role
+create table
+    membership (
+        id serial primary key,
+        user_id integer references users (id),
+        org_id integer references organization (id),
+        role text not null check (role in ('ADMIN', 'AGENT', 'USER')),
+        created_at timestamp default current_timestamp,
+        unique (user_id, org_id)
+    )
 
 -- Ticket Table --> A ticket must be associated with an organization then the admin decides which agent to give the ticket to resolve
 create table
@@ -42,7 +49,6 @@ create table
     ticket_history (
         id serial primary key,
         ticket_id integer references tickets (id),
-        old_status text not null,
         new_status text not null,
         changed_by integer references users (id),
         changed_at timestamp default now ()
