@@ -4,7 +4,6 @@ exports.generateAccessToken = (user) => {
   try {
     const payload = {
       id: user.id,
-      role: user.role,
     };
 
     return jwt.sign(payload, process.env.JWT_ACCESS_TOKEN, {
@@ -19,7 +18,6 @@ exports.generateRefreshToken = (user) => {
   try {
     const payload = {
       id: user.id,
-      role: user.role,
     };
 
     return jwt.sign(payload, process.env.JWT_REFRESH_TOKEN, {

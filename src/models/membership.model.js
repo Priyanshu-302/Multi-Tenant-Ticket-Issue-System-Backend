@@ -2,11 +2,11 @@ const { pool } = require("../config/db");
 
 // These methods can only be accessed by role = 'ADMIN'
 
-exports.addMember = async (user_id, org_id) => {
+exports.addMember = async (user_id, role, org_id) => {
   try {
     const result = await pool.query(
-      `insert into membership(user_id, org_id) values($1, $2) returning *`,
-      [user_id, org_id],
+      `insert into membership(user_id, role, org_id) values($1, $2, $3) returning *`,
+      [user_id, role, org_id],
     );
 
     return result.rows[0];
@@ -28,11 +28,11 @@ exports.getUserRole = async (user_id) => {
   }
 };
 
-exports.updateUserRole = async (role, user_id) => {
+exports.updateUserRole = async (user_id, org_id, role) => {
   try {
     const result = await pool.query(
-      `update membership set role = $1 where user_id = $2`,
-      [role, user_id],
+      `update membership set role = $3 where user_id = $1 and org_id = $2 returning *`,
+      [user_id, org_id, role],
     );
 
     return result.rows[0];

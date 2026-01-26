@@ -1,7 +1,7 @@
-const createOrg = require("../services/organization.service");
-const addUserToOrg = require("../services/organization.service");
-const getUserOrgs = require("../services/organization.service");
-const changeUserRole = require("../services/organization.service");
+const { createOrg } = require("../services/organization.service");
+const { addUserToOrg } = require("../services/organization.service");
+const { getUserOrgs } = require("../services/organization.service");
+const { changeUserRole } = require("../services/organization.service");
 
 exports.createOrganization = async (req, res, next) => {
   try {
@@ -26,7 +26,7 @@ exports.createOrganization = async (req, res, next) => {
 
 exports.addMember = async (req, res, next) => {
   try {
-    const { user_id, org_id } = req.body;
+    const { user_id, role, org_id } = req.body;
     if (!user_id || !org_id) {
       return res.status(400).json({
         success: false,
@@ -34,7 +34,7 @@ exports.addMember = async (req, res, next) => {
       });
     }
 
-    const newMember = await addUserToOrg(user_id, org_id);
+    const newMember = await addUserToOrg(user_id, role, org_id);
     res.status(201).json({
       success: true,
       newMember,
@@ -75,15 +75,15 @@ exports.getUserOrganizations = async (req, res, next) => {
 
 exports.changeUserRole = async (req, res, next) => {
   try {
-    const { role, user_id } = req.body;
-    if (!role || !user_id) {
+    const { user_id, org_id, role } = req.body;
+    if (!user_id || !role || !org_id) {
       return res.status(400).json({
         success: false,
         message: "Role and User ID are required",
       });
     }
 
-    const updatedRole = await changeUserRole(role, user_id);
+    const updatedRole = await changeUserRole(user_id, org_id, role);
     if (!updatedRole) {
       return res.status(404).json({
         success: false,

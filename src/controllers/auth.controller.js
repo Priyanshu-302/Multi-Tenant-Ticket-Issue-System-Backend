@@ -1,7 +1,7 @@
-const registerUser = require("../services/auth.service");
-const loginUser = require("../services/auth.service");
-const generateAccessToken = require("../utils/jwt");
-const generateRefreshToken = require("../utils/jwt");
+const { registerUser } = require("../services/auth.service");
+const { loginUser } = require("../services/auth.service");
+const { generateAccessToken } = require("../utils/jwt");
+const { generateRefreshToken } = require("../utils/jwt");
 
 exports.register = async (req, res, next) => {
   try {
@@ -57,4 +57,3 @@ exports.logout = async (req, res, next) => {
     next(error);
   }
 };
-

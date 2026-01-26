@@ -1,10 +1,10 @@
 const { pool } = require("../config/db");
 
-exports.createTicket = async (title, description, org_id, user_id) => {
+exports.createTicket = async (title, description, org_id, status, priority) => {
   try {
     const result = await pool.query(
-      `insert into tickets(title, description, org_id, user_id) values($1, $2, $3, $4) returning *`,
-      [title, description, org_id, user_id],
+      `insert into tickets(title, description, org_id, status, priority) values($1, $2, $3, $4, $5) returning *`,
+      [title, description, org_id, status, priority],
     );
 
     return result.rows[0];
@@ -19,7 +19,7 @@ exports.getTicketByOrg = async (org_id) => {
       org_id,
     ]);
 
-    return result.rows[0];
+    return result.rows;
   } catch (error) {
     console.log(error);
   }
@@ -37,11 +37,11 @@ exports.getTicketById = async (id) => {
   }
 };
 
-exports.assignTicket = async (user_id, ticket_id) => {
+exports.assignTicket = async (id, created_by, assigned_to) => {
   try {
     const result = await pool.query(
-      `update tickets set user_id = $1 where id = $2 returning *`,
-      [user_id, ticket_id],
+      `update tickets set created_by = $2, assigned_to = $3 where id = $1 returning *`,
+      [id, created_by, assigned_to],
     );
 
     return result.rows[0];
@@ -77,14 +77,36 @@ exports.updateTicket = async (title, description, ticket_id) => {
 };
 
 exports.deleteTicket = async (ticket_id) => {
+  const client = await pool.connect();
+
+  // Transaction
   try {
-    const result = await pool.query(
-      `delete from tickets where id = $1 returning *`,
-      [ticket_id],
+    await client.query("BEGIN");
+
+    // 1. Delete the history of the key first
+    await client.query(
+      "DELETE FROM ticket_history WHERE ticket_id = $1",
+      [ticket_id]
     );
 
+    // 2. Delete the ticket
+    const result = await client.query(
+      "DELETE FROM tickets WHERE id = $1 RETURNING *",
+      [ticket_id]
+    );
+
+    if (result.rowCount === 0) {
+      throw new Error("Ticket not found");
+    }
+
+    await client.query("COMMIT");
     return result.rows[0];
+
   } catch (error) {
-    console.log(error);
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
   }
 };
+

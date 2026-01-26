@@ -1,9 +1,9 @@
 const { pool } = require("../config/db");
 
-exports.createUser = async (name, email, password, org_id) => {
+exports.createUser = async (name, email, password) => {
   try {
     const result = await pool.query(
-      `insert into users(name, email, password) values ($1, $2, $3, $4) returning *`,
+      `insert into users(name, email, password) values ($1, $2, $3) returning *`,
       [name, email, password],
     );
 
@@ -16,7 +16,7 @@ exports.createUser = async (name, email, password, org_id) => {
 exports.getUserByEmail = async (email) => {
   try {
     const result = await pool.query(
-      `select id, name, email from users where email = $1`,
+      `select id, name, email, password from users where email = $1`,
       [email],
     );
 

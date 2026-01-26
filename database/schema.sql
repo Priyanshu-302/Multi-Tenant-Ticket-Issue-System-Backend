@@ -2,7 +2,7 @@
 create table
     organization (
         id serial primary key,
-        name text not null,
+        name text not null unique,
         created_at timestamp default current_timestamp
     );
 
@@ -14,7 +14,7 @@ create table
         email text not null unique,
         password text not null,
         is_active boolean default true,
-        created_at timestamp default current_timestamp,
+        created_at timestamp default current_timestamp
     );
 
 -- Membership Table --> Forms relationship between user <-> organization <-> role
@@ -26,7 +26,7 @@ create table
         role text not null check (role in ('ADMIN', 'AGENT', 'USER')),
         created_at timestamp default current_timestamp,
         unique (user_id, org_id)
-    )
+    );
 
 -- Ticket Table --> A ticket must be associated with an organization then the admin decides which agent to give the ticket to resolve
 create table
@@ -52,4 +52,4 @@ create table
         new_status text not null,
         changed_by integer references users (id),
         changed_at timestamp default now ()
-    )
+    );

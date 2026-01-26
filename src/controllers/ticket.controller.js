@@ -1,27 +1,33 @@
-const createTicket = require("../services/ticket.service");
-const getTickets = require("../services/ticket.service");
-const assignTicket = require("../services/ticket.service");
-const updateTicketStatus = require("../services/ticket.service");
-const updateTicket = require("../services/ticket.service");
-const deleteTicket = require("../services/ticket.service");
-const addTicketMessage = require("../services/ticket.service");
-const getTicketMessage = require("../services/ticket.service");
+const { createTicket } = require("../services/ticket.service");
+const { getTickets } = require("../services/ticket.service");
+const { assignTicket } = require("../services/ticket.service");
+const { updateTicketStatus } = require("../services/ticket.service");
+const { updateTicket } = require("../services/ticket.service");
+const { deleteTicket } = require("../services/ticket.service");
+const { addTicketMessage } = require("../services/ticket.service");
+const { getTicketMessage } = require("../services/ticket.service");
 
 exports.createTicket = async (req, res, next) => {
   try {
-    const { title, description, org_id, user_id } = req.body;
-    if (!title || !description || !org_id || !user_id) {
+    const { title, description, org_id, status, priority } = req.body;
+    if (!title || !description || !org_id || !status || !priority) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
 
-    const newTicket = await createTicket(title, description, org_id, user_id);
+    const newTicket = await createTicket(
+      title,
+      description,
+      org_id,
+      status,
+      priority,
+    );
     if (!newTicket) {
       return res.status(400).json({
         success: false,
-        message: "Ticket already exists",
+        message: "Ticket required",
       });
     }
 
@@ -65,15 +71,21 @@ exports.getTickets = async (req, res, next) => {
 
 exports.assignTicket = async (req, res, next) => {
   try {
-    const { user_id, ticket_id } = req.body;
-    if (!user_id || !ticket_id) {
+    const { ticket_id, created_by, assigned_to } = req.body;
+
+    if (!ticket_id || !created_by || !assigned_to) {
       return res.status(400).json({
         success: false,
         message: "User ID and Ticket ID are required",
       });
     }
 
-    const assignedTicket = await assignTicket(user_id, ticket_id);
+    const assignedTicket = await assignTicket(
+      ticket_id,
+      created_by,
+      assigned_to,
+    );
+
     if (!assignedTicket) {
       return res.status(400).json({
         success: false,
@@ -94,6 +106,7 @@ exports.assignTicket = async (req, res, next) => {
 exports.updateTicketStatus = async (req, res, next) => {
   try {
     const { status, ticket_id } = req.body;
+
     if (!status || !ticket_id) {
       return res.status(400).json({
         success: false,

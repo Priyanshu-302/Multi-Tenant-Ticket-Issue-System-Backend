@@ -1,20 +1,17 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/user.model");
+const { getUserByEmail } = require("../models/user.model");
+const { createUser } = require("../models/user.model");
 
 exports.registerUser = async (name, email, password) => {
   try {
-    const existingUser = await User.getUserByEmail(email);
+    const existingUser = await getUserByEmail(email);
     if (existingUser) {
       throw new Error("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await User.createUser(
-      name,
-      email,
-      hashedPassword
-    );
+    const newUser = await createUser(name, email, hashedPassword);
 
     return newUser;
   } catch (error) {
@@ -24,7 +21,7 @@ exports.registerUser = async (name, email, password) => {
 
 exports.loginUser = async (email, password) => {
   try {
-    const currUser = await User.getUserByEmail(email);
+    const currUser = await getUserByEmail(email);
     if (!currUser) {
       throw new Error("Invalid credentials");
     }

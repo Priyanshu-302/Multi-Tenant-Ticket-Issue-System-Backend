@@ -1,17 +1,23 @@
-const createTicket = require("../models/ticket.model");
-const getTicketByOrg = require("../models/ticket.model");
-const assignTicket = require("../models/ticket.model");
-const updateTicketStatus = require("../models/ticket.model");
-const updateTicket = require("../models/ticket.model");
-const deleteTicket = require("../models/ticket.model");
-const addTicketHistory = require("../models/ticketHistory.model");
-const getTicketHistory = require("../models/ticketHistory.model");
+const { createTicket } = require("../models/ticket.model");
+const { getTicketByOrg } = require("../models/ticket.model");
+const { assignTicket } = require("../models/ticket.model");
+const { updateTicketStatus } = require("../models/ticket.model");
+const { updateTicket } = require("../models/ticket.model");
+const { deleteTicket } = require("../models/ticket.model");
+const { addTicketHistory } = require("../models/ticketHistory.model");
+const { getTicketHistory } = require("../models/ticketHistory.model");
 
-exports.createTicket = async (title, description, org_id, user_id) => {
+exports.createTicket = async (title, description, org_id, status, priority) => {
   try {
-    const newTicket = await createTicket(title, description, org_id, user_id);
-    if (newTicket) {
-      throw new Error("Ticket already exists");
+    const newTicket = await createTicket(
+      title,
+      description,
+      org_id,
+      status,
+      priority,
+    );
+    if (!newTicket) {
+      throw new Error("Ticket needed");
     }
 
     return newTicket;
@@ -33,11 +39,12 @@ exports.getTickets = async (org_id) => {
   }
 };
 
-exports.assignTicket = async (user_id, ticket_id) => {
+exports.assignTicket = async (id, created_by, assigned_to) => {
   try {
-    const assignedTicket = await assignTicket(user_id, ticket_id);
-    if (assignedTicket) {
-      throw new Error("Ticket already assigned");
+    const assignedTicket = await assignTicket(id, created_by, assigned_to);
+
+    if (!assignedTicket) {
+      throw new Error("Ticket not assigned");
     }
 
     return assignedTicket;

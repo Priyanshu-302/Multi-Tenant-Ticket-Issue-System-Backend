@@ -1,6 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const index = require("../src/routes/index");
+const index = require("../src/routes/index.routes");
 const errorHandler = require("../src/middlewares/error.middleware");
 
 const app = express();

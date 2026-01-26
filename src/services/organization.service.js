@@ -1,14 +1,14 @@
-const createOrganization = require("../models/organization.model");
-const addMember = require("../models/membership.model");
-const getUserOrgs = require("../models/membership.model");
-const updateUserRole = require("../models/membership.model");
+const { createOrganization } = require("../models/organization.model");
+const { addMember } = require("../models/membership.model");
+const { getUserOrgs } = require("../models/membership.model");
+const { updateUserRole } = require("../models/membership.model");
 
 exports.createOrg = async (name) => {
   try {
     const newOrg = await createOrganization(name);
 
-    if (newOrg) {
-      throw new Error("Organization already exists");
+    if (!newOrg) {
+      throw new Error("Organization exists");
     }
 
     return newOrg;
@@ -17,12 +17,12 @@ exports.createOrg = async (name) => {
   }
 };
 
-exports.addUserToOrg = async (user_id, org_id) => {
+exports.addUserToOrg = async (user_id, role, org_id) => {
   try {
-    const newMember = await addMember(user_id, org_id);
+    const newMember = await addMember(user_id, role, org_id);
 
-    if (newMember) {
-      throw new Error("User already in organization");
+    if (!newMember) {
+      throw new Error("User not registered");
     }
 
     return newMember;
@@ -45,13 +45,12 @@ exports.getUserOrgs = async (user_id) => {
   }
 };
 
-exports.changeUserRole = async (role, user_id) => {
+exports.changeUserRole = async (user_id, org_id, role) => {
   try {
-    const updatedRole = await updateUserRole(role, user_id);
+    const updatedRole = await updateUserRole(user_id, org_id, role);
 
     return updatedRole;
   } catch (error) {
     console.log(error);
   }
 };
-
