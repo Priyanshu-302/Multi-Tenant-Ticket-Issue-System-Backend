@@ -47,7 +47,7 @@ npm install
 Create a `.env` file in the root directory:
 
 ```env
-PORT=3000
+PORT=443
 DATABASE_URL=postgresql://username:password@localhost:5432/dbname
 JWT_SECRET=your-super-secret-key
 JWT_EXPIRES_IN=7d
@@ -74,13 +74,16 @@ npm run dev
 npm start
 ```
 
-The server will start at `http://localhost:3000`
+The server will start at `https://localhost:443`
 
 ## Project Structure
 
 ```
 ├── database/
 │   └── schema.sql          # Database schema
+|   certs/                  # SSL certificates
+│   └── server.key
+|   └── server.cert
 ├── src/
 │   ├── app.js              # Express app configuration
 │   ├── server.js           # Server entry point

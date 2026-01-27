@@ -4,7 +4,7 @@ Complete API documentation for the Multi-Tenant SaaS Ticket Management System.
 
 ## Base URL
 ```
-http://localhost:5000
+https://localhost:443
 ```
 
 ## Authentication
@@ -80,7 +80,7 @@ Register a new user account.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/auth/register \
+curl -X POST https://localhost:443/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -129,7 +129,7 @@ Authenticate user and receive JWT token.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/auth/login \
+curl -X POST https://localhost:443/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -159,7 +159,7 @@ Logout user and invalidate token.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/auth/logout \
+curl -X POST https://localhost:443/auth/logout \
   -H "Authorization: Bearer <your-token>"
 ```
 
@@ -205,7 +205,7 @@ Create a new organization. Creator automatically becomes ADMIN.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/org/create \
+curl -X POST https://localhost:443/org/create \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -258,7 +258,7 @@ Add a user to an organization.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/org/add-member \
+curl -X POST https://localhost:443/org/add-member \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -310,7 +310,7 @@ Get all organizations the authenticated user belongs to.
 
 **Example (curl):**
 ```bash
-curl -X GET http://localhost:3000/org/get-user-orgs \
+curl -X GET https://localhost:443/org/get-user-orgs \
   -H "Authorization: Bearer <your-token>"
 ```
 
@@ -360,7 +360,7 @@ Change a member's role within an organization.
 
 **Example (curl):**
 ```bash
-curl -X PUT http://localhost:3000/org/change-user-role \
+curl -X PUT https://localhost:443/org/change-user-role \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -425,7 +425,7 @@ Create a new ticket in an organization.
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/ticket/create \
+curl -X POST https://localhost:443/ticket/create \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -486,7 +486,7 @@ Get all tickets for an organization.
 
 **Example (curl):**
 ```bash
-curl -X GET "http://localhost:3000/ticket/get-tickets?org_id=1&status=OPEN" \
+curl -X GET "https://localhost:443/ticket/get-tickets?org_id=1&status=OPEN" \
   -H "Authorization: Bearer <your-token>"
 ```
 
@@ -533,7 +533,7 @@ Assign a ticket to a user.
 
 **Example (curl):**
 ```bash
-curl -X PUT http://localhost:3000/ticket/assign-ticket \
+curl -X PUT https://localhost:443/ticket/assign-ticket \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -586,7 +586,7 @@ Update the status of a ticket.
 
 **Example (curl):**
 ```bash
-curl -X PUT http://localhost:3000/ticket/update-ticket-status \
+curl -X PUT https://localhost:443/ticket/update-ticket-status \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -640,7 +640,7 @@ Update ticket title, description, or priority.
 
 **Example (curl):**
 ```bash
-curl -X PUT http://localhost:3000/ticket/update-ticket \
+curl -X PUT https://localhost:443/ticket/update-ticket \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -684,7 +684,7 @@ Delete a ticket permanently.
 
 **Example (curl):**
 ```bash
-curl -X DELETE http://localhost:3000/ticket/delete-ticket \
+curl -X DELETE https://localhost:443/ticket/delete-ticket \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -741,7 +741,7 @@ Add a comment/message to a ticket (threaded discussion).
 
 **Example (curl):**
 ```bash
-curl -X POST http://localhost:3000/ticket/add-ticket-message \
+curl -X POST https://localhost:443/ticket/add-ticket-message \
   -H "Authorization: Bearer <your-token>" \
   -H "Content-Type: application/json" \
   -d '{
@@ -803,7 +803,7 @@ Get all messages/comments for a ticket.
 
 **Example (curl):**
 ```bash
-curl -X GET "http://localhost:3000/ticket/get-ticket-message?ticket_id=101" \
+curl -X GET "https://localhost:443/ticket/get-ticket-message?ticket_id=101" \
   -H "Authorization: Bearer <your-token>"
 ```
 

@@ -202,7 +202,7 @@ touch .env
 Open `.env` file in your text editor and add:
 ```env
 # Server Configuration
-PORT=3000
+PORT=443
 NODE_ENV=development
 
 # Database Configuration
@@ -223,7 +223,7 @@ JWT_EXPIRES_IN=7d
 COOKIE_EXPIRE=7
 
 # CORS Configuration (optional)
-CORS_ORIGIN=http://localhost:3000
+CORS_ORIGIN=https://localhost:443
 ```
 
 ### Step 3: Secure Your Environment File
@@ -249,7 +249,7 @@ echo ".env" >> .gitignore
 | `JWT_SECRET` | Secret key for JWT signing | random_string | Yes |
 | `JWT_EXPIRES_IN` | Token expiration time | 7d | Yes |
 | `COOKIE_EXPIRE` | Cookie expiration (days) | 7 | Optional |
-| `CORS_ORIGIN` | Allowed CORS origin | http://localhost:3000 | Optional |
+| `CORS_ORIGIN` | Allowed CORS origin | https://localhost:443 | Optional |
 
 **Security Note:** Use a strong, random `JWT_SECRET` in production. You can generate one using:
 ```bash
@@ -269,7 +269,7 @@ npm run dev
 
 **Expected Output:**
 ```
-Server running on port 3000
+Server running on port 443
 Database connected successfully
 ```
 
@@ -283,12 +283,12 @@ npm start
 
 Open your browser and navigate to:
 ```
-http://localhost:3000
+https://localhost:443
 ```
 
 Or use curl:
 ```bash
-curl http://localhost:3000
+curl https://localhost:443
 ```
 
 You should see a response (or check your defined root route).
@@ -299,7 +299,7 @@ You should see a response (or check your defined root route).
 
 ### Test 1: Register a User
 ```bash
-curl -X POST http://localhost:3000/auth/register \
+curl -X POST https://localhost:443/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -326,7 +326,7 @@ curl -X POST http://localhost:3000/auth/register \
 
 ### Test 2: Login
 ```bash
-curl -X POST http://localhost:3000/auth/login \
+curl -X POST https://localhost:443/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -355,7 +355,7 @@ curl -X POST http://localhost:3000/auth/login \
 ### Test 3: Create Organization
 ```bash
 # Replace YOUR_TOKEN with the token from login response
-curl -X POST http://localhost:3000/org/create \
+curl -X POST https://localhost:443/org/create \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
@@ -412,13 +412,13 @@ SELECT * FROM memberships;
 
 **Error:**
 ```
-Error: listen EADDRINUSE: address already in use :::3000
+Error: listen EADDRINUSE: address already in use :::443
 ```
 
 **Solution:**
 ```bash
 # Find process using port 3000
-lsof -i :3000
+lsof -i :443
 
 # Kill the process
 kill -9 <PID>
