@@ -13,5 +13,5 @@ selfsigned.generate(attrs, options, function(err, pems) {
 
   fs.writeFileSync('server.key', pems.private);
   fs.writeFileSync('server.cert', pems.cert);
-  console.log('✅ server.key and server.cert generated in current folder');
+  console.log('server.key and server.cert generated in current folder');
 });
