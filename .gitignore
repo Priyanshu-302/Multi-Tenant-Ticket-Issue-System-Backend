@@ -5,3 +5,6 @@ node_modules/
 folder-structure.txt
 
 package-lock.json
+
+certs/server.key
+certs/server.cert
