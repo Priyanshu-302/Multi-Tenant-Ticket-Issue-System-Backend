@@ -33,7 +33,7 @@ create table
     tickets (
         id serial primary key,
         org_id integer references organization (id),
-        title text not null,
+        title text not null unique,
         description text not null,
         status text not null check (
             status in ('OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED')
