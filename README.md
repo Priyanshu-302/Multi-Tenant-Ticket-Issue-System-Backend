@@ -81,7 +81,7 @@ The server will start at `https://localhost:443`
 ```
 ├── database/
 │   └── schema.sql          # Database schema
-|   certs/                  # SSL certificates
+|── certs/                  # SSL certificates
 │   └── server.key
 |   └── server.cert
 ├── src/
