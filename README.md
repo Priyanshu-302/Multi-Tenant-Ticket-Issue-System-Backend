@@ -112,7 +112,12 @@ The server will start at `https://localhost:443`
 │   ├── middlewares/        # Custom middlewares
 │   │   ├── auth.middleware.js
 │   │   ├── error.middleware.js
+|   │   ├── validate.middleware.js
 │   │   └── role.middleware.js
+|   ├── validators/          # Request validation
+│   |    ├── auth.validator.js
+│   |    ├── organization.validator.js
+│   |    └── ticket.validator.js
 │   └── utils/              # Helper functions
 │       └── jwt.js
 ├── .env                    # Environment variables

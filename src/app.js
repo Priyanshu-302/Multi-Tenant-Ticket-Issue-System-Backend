@@ -1,12 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
 const index = require("../src/routes/index.routes");
 const errorHandler = require("../src/middlewares/error.middleware");
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 app.use(cookieParser());
 
 // Main endpoint from which all the types of api's will be called
