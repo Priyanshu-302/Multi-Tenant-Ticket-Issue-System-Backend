@@ -5,7 +5,6 @@ const roleHandler = (role) => {
     try {
       const userId = req.user?.id;
       const ticketId = req.body.ticket_id;
-      console.log(userId, ticketId);
 
       if (!userId || !ticketId) {
         return res.status(401).json({
@@ -27,11 +26,11 @@ const roleHandler = (role) => {
       
 
       if (result.rowCount === 0) {
-        return res.status(403).json({ message: "Forbidden1" });
+        return res.status(403).json({ message: "Forbidden" });
       }
 
       if (result.rows[0].role !== role) {
-        return res.status(403).json({ message: "Forbidden2" });
+        return res.status(403).json({ message: "Forbidden" });
       }
 
       next();
